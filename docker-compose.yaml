@@ -1,0 +1,36 @@
+version: '3'
+services:
+  wordpress:
+    container_name: frontend
+    image: wordpress
+    restart: always
+    ports:
+      - 8089:80
+    depends_on:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: backend
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+  mysql:
+   container_name: backend
+   image: mysql
+   restart: always
+   environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_PASSWORD: wordpress
+   volumes:
+      - ./mysql:/var/lib/mysql
+
+networks:
+  rogernet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.12.0/24
+
+
+  
+
